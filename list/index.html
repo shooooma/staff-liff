@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>募集中一覧</title>
+
+  <script
+    src="https://static.line-scdn.net/liff/edge/2/sdk.js">
+  </script>
+
+  <style>
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+      margin: 0;
+      padding: 20px;
+      background: #f4f5f7;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .error {
+      color: #b91c1c;
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <div class="card" id="message">
+    募集中の現場を確認しています...
+  </div>
+
+
+  <script>
+
+    const LIFF_ID =
+      '2011698539-Q1wSqGca';
+
+
+    const GAS_URL =
+      'https://script.google.com/macros/s/AKfycbyd353zktTh2a9nw1qPjRbg9BtJaqZdpaN0WMwGCVQHk0RwmadyWeNH-1eWVrlaFXyB/exec';
+
+
+    async function start() {
+
+      try {
+
+        await liff.init({
+          liffId: LIFF_ID
+        });
+
+
+        if (!liff.isLoggedIn()) {
+
+          liff.login();
+
+          return;
+        }
+
+
+        const idToken =
+          liff.getIDToken();
+
+
+        if (!idToken) {
+
+          showError(
+            'LINEの本人情報を取得できませんでした。'
+          );
+
+          return;
+        }
+
+
+        const form =
+          document.createElement(
+            'form'
+          );
+
+
+        form.method =
+          'POST';
+
+        form.action =
+          GAS_URL;
+
+
+        const actionInput =
+          document.createElement(
+            'input'
+          );
+
+        actionInput.type =
+          'hidden';
+
+        actionInput.name =
+          'action';
+
+        actionInput.value =
+          'list';
+
+
+        const tokenInput =
+          document.createElement(
+            'input'
+          );
+
+        tokenInput.type =
+          'hidden';
+
+        tokenInput.name =
+          'idToken';
+
+        tokenInput.value =
+          idToken;
+
+
+        form.appendChild(
+          actionInput
+        );
+
+        form.appendChild(
+          tokenInput
+        );
+
+        document.body.appendChild(
+          form
+        );
+
+
+        form.submit();
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        showError(
+          'LINEとの接続に失敗しました。'
+        );
+      }
+    }
+
+
+    function showError(
+      message
+    ) {
+
+      const element =
+        document.getElementById(
+          'message'
+        );
+
+      element.className =
+        'card error';
+
+      element.textContent =
+        message;
+    }
+
+
+    start();
+
+  </script>
+
+</body>
+
+</html>
