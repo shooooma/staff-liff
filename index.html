@@ -65,19 +65,21 @@
       try {
 
         await liff.init({
-          liffId: LIFF_ID
-        });
-
-        const params =
-          new URLSearchParams(
-            window.location.search
-          );
-        
-        
-        const page =
-          params.get(
-            'page'
-          ) || 'myjobs';
+        liffId: LIFF_ID
+      });
+      
+      
+      // LIFF初期化完了後のURLから判定
+      const currentUrl =
+        new URL(
+          window.location.href
+        );
+      
+      
+      const page =
+        currentUrl.searchParams.get(
+          'page'
+        ) || 'myjobs';
 
         
 
