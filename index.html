@@ -68,6 +68,18 @@
           liffId: LIFF_ID
         });
 
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+        
+        
+        const page =
+          params.get(
+            'page'
+          ) || 'myjobs';
+
+        
 
         if (!liff.isLoggedIn()) {
 
