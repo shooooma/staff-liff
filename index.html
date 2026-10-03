@@ -129,8 +129,9 @@
           'action';
 
         actionInput.value =
-          'myjobs';
-
+        page === 'list'
+          ? 'list'
+          : 'myjobs';
 
         const tokenInput =
           document.createElement(
